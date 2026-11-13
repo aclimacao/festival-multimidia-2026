@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assistir e votar · Festival de Animação + Feira de Jogos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6FB;--ink:#151B3B;--a:#3345E0;--b:#FF6B4A;--c:#FFC94A;--soft:#E3E8FA;--card:#fff;--d:'Bricolage Grotesque','Trebuchet MS',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{font-family:Figtree,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+body.trava{overflow:hidden}
+:focus-visible{outline:3px solid var(--b);outline-offset:3px}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1.4rem;border-bottom:2px solid var(--ink)}
+header b{font-family:var(--d);font-weight:800;font-size:1.1rem}
+header a{font-weight:600;text-decoration:none}
+main{max-width:980px;margin:0 auto;padding:2rem 1.2rem 4rem}
+h1{font-family:var(--d);font-weight:800;font-size:clamp(2rem,6vw,3.2rem);line-height:1.05;letter-spacing:-.02em}
+.lead{max-width:56ch;margin:.5rem 0 1.5rem;font-size:1.1rem;opacity:.85}
+.btn{font:inherit;font-weight:800;padding:.7rem 1.3rem;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.p{background:var(--a);color:#fff}
+.login{max-width:520px;background:var(--card);border:2px solid var(--ink);border-radius:24px;padding:1.4rem;box-shadow:8px 8px 0 var(--ink)}
+.login input{font:inherit;font-size:1.7rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;text-align:center;width:100%;border:2px solid var(--ink);border-radius:14px;padding:.6rem;margin:.8rem 0}
+#msg{margin-top:.8rem;font-weight:800;min-height:1.5em}.erro{color:#B3261E}.ok{color:var(--a)}
+.ola{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem}.ola h2{font-family:var(--d);font-size:1.9rem}
+.chip{background:var(--c);border:2px solid var(--ink);border-radius:999px;padding:0 .8rem;font-weight:800;font-size:.9rem}
+.regras{background:var(--soft);border-radius:18px;padding:1rem 1.3rem;margin:1rem 0}.regras ul{margin:0 0 .6rem 1.2rem}.regras p{margin-top:.4rem}
+.abas{display:flex;gap:.6rem;margin:1rem 0;flex-wrap:wrap}
+.obra{display:grid;grid-template-columns:170px 1fr;gap:1rem;background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:.8rem;margin-bottom:1rem}
+.capa{aspect-ratio:16/10;border:2px solid var(--ink);border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;overflow:hidden;font-size:1.8rem;cursor:pointer;padding:0}
+.capa img{width:100%;height:100%;object-fit:cover}
+.obra h3{font-family:var(--d);font-size:1.3rem}.eq{opacity:.75}
+.acoes{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}
+.tag{font-weight:800;font-size:.9rem;padding:.3rem .8rem;background:var(--soft);border-radius:999px}
+.form label{display:grid;grid-template-columns:1fr auto;gap:.1rem .6rem;margin:.6rem 0;font-weight:600}
+.form input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--a)}
+@media(max-width:560px){.obra{grid-template-columns:1fr}}
+
+/* sala de cinema */
+.sala{position:fixed;inset:0;z-index:100;overflow:auto;color:#fff;background:radial-gradient(circle at 50% 18%,#242E8F,#0B0F2E 75%);padding:0 1rem 2rem}
+.sala[hidden]{display:none}
+.faixa{height:14px;margin:0 -1rem 1rem;background:repeating-linear-gradient(115deg,var(--ink) 0 18px,var(--c) 18px 36px)}
+.sin{max-width:1100px;margin:0 auto}
+.stop{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;gap:1rem}
+.sala .btn{background:transparent;color:#fff;border-color:#fff}.sala .btn.p{background:var(--c);color:var(--ink);border-color:var(--c)}
+.tela{aspect-ratio:16/9;width:100%;background:#000;border:4px solid var(--c);border-radius:14px;box-shadow:0 0 60px rgba(255,201,74,.25);overflow:hidden;position:relative}
+.tela iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tela:fullscreen{border:0;border-radius:0}
+.semvideo{position:absolute;inset:0;display:grid;place-content:center;gap:1rem;text-align:center;padding:1rem;font-weight:600}
+.sinfo{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin:1rem 0 .4rem;align-items:center}
+.sinfo h3{font-family:var(--d);font-size:clamp(1.4rem,3vw,2rem);line-height:1.1}.sinfo p{opacity:.8}
+.dica{font-size:.9rem;opacity:.8;margin:.4rem 0 1rem}
+.sbox{background:#fff;color:var(--ink);border-radius:20px;padding:1rem 1.2rem}
+.sbox .btn{background:var(--card);color:var(--ink);border-color:var(--ink)}.sbox .btn.p{background:var(--a);color:#fff;border-color:var(--ink)}
+</style>
+</head>
+<body>
+<header><b>Festival de Animação + Feira de Jogos</b><a href="index.html">Voltar ao site</a></header>
+<main>
+  <h1>Assistir e votar</h1>
+  <p class="lead">Entre com o código do seu ingresso para assistir às animações aqui mesmo e registrar seu voto.</p>
+  <div class="login" id="login"><label for="cod"><strong>Código do ingresso</strong></label><input id="cod" maxlength="5" autocomplete="off" placeholder="K7M2Q"><button class="btn p" id="ir" type="button">Entrar</button></div>
+  <p id="msg" role="status" aria-live="polite"></p>
+  <div id="area" hidden></div>
+</main>
+
+<div class="sala" id="sala" hidden role="dialog" aria-modal="true" aria-labelledby="sTit">
+  <div class="faixa"></div>
+  <div class="sin">
+    <div class="stop"><button class="btn" id="sFechar" type="button">✕ Fechar</button><span>Sala de exibição</span></div>
+    <div class="tela" id="tela"></div>
+    <div class="sinfo"><div><h3 id="sTit"></h3><p id="sEq"></p></div>
+      <div class="acoes"><button class="btn" id="sAnt" type="button">‹ Anterior</button><button class="btn" id="sProx" type="button">Próxima ›</button><button class="btn" id="sFull" type="button">Tela cheia</button><a class="btn" id="sAba" target="_blank" rel="noopener">Abrir em outra aba</a></div></div>
+    <p class="dica">Se o vídeo pedir login ou não carregar, use "Abrir em outra aba". No celular, o botão de tela cheia do próprio player costuma funcionar melhor.</p>
+    <div class="sbox" id="sAcoes"></div>
+  </div>
+</div>
+
+<script>
+const API='https://script.google.com/macros/s/AKfycby9RIo0eG73Ox_ANsjIO8HmRTPWPYakVDdJzhrClh8FwDaLqDLuOv0ImqD7ktkcRKxmWw/exec';
+const CRIT=[['Animação','movimentos, fluidez e timing'],['Qualidade visual','design, acabamento e coerência estética'],['Enquadramento e composição',''],['Edição e montagem',''],['Trilha e efeitos sonoros',''],['Roteiro e narrativa','']];
+const $=q=>document.querySelector(q);
+let PERFIL=null,DADOS=null,COD=sessionStorage.getItem('cod')||'',MOD='Individual/Dupla',SALA=null;
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const soma=a=>a.reduce((x,y)=>x+Number(y),0);
+const chamar=p=>fetch(API+'?'+new URLSearchParams(p)).then(r=>r.json());
+function msg(t,ok){const m=$('#msg');m.textContent=t;m.className=ok?'ok':'erro'}
+async function carregar(){const r=await chamar({acao:'obras',codigo:COD});if(!r.ok)throw new Error(r.erro);DADOS=r}
+async function entrar(c){
+  msg('Entrando...',true);
+  try{const r=await chamar({acao:'entrar',codigo:String(c).trim().toUpperCase()});
+    if(!r.ok){sessionStorage.removeItem('cod');return msg(r.erro,false)}
+    COD=r.perfil.codigo;PERFIL=r.perfil;sessionStorage.setItem('cod',COD);await carregar();
+    msg('',true);$('#login').hidden=true;$('#area').hidden=false;render();
+  }catch(e){msg('Não consegui falar com a planilha. Tente de novo.',false)}
+}
+function embedSrc(o){let e=(o.embed||'').trim();const m=e.match(/src=["']([^"']+)["']/i);if(m)e=m[1];
+  if(!e){const l=(o.link||'').trim();
+    const y=l.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/))([\w-]{6,})/);if(y)return 'https://www.youtube-nocookie.com/embed/'+y[1];
+    const g=l.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(g)return 'https://drive.google.com/file/d/'+g[1]+'/preview';
+    return ''}
+  e=e.replace(/&amp;/g,'&');return /^https:\/\//i.test(e)?e:''}
+function regras(){const es=DADOS.estado,p=PERFIL.papel,st=(a,t)=>`<li>${t}: <strong>${a?'aberta agora':'fechada no momento'}</strong></li>`;
+  let h='<ul>'+st(es.popular,'Votação popular');
+  if(p==='TECNICO')h+=st(es.tecnico,'Avaliação do júri técnico (de 23 a 27/11)');
+  if(p==='PROFISSIONAL')h+=st(es.profissional,'Avaliação do júri profissional');
+  h+='</ul><p><strong>Voto popular:</strong> um voto em cada modalidade (Individual/Dupla e Grupo). Você pode trocar o voto até a votação fechar.</p>';
+  if(p!=='PUBLICO')h+='<p><strong>Notas:</strong> avalie cada obra de 0 a 10 nos 6 critérios (máximo 60): '+CRIT.map(c=>c[0]).join('; ')+'.'+(p==='PROFISSIONAL'?' Depois da reunião da comissão, a organização registra as 3 melhores de cada modalidade.':'')+'</p>';
+  return h}
+const podeVer=o=>!!(o.link||o.embed);
+function card(o){const d=DADOS,es=d.estado,jur=PERFIL.papel!=='PUBLICO',meu=d.votos[o.modalidade]===o.id,n=d.notas[o.id];
+  const aval=jur&&es[PERFIL.papel==='TECNICO'?'tecnico':'profissional']&&!o.propria;
+  return `<article class="obra"><button class="capa" type="button" data-a="sala" data-id="${esc(o.id)}" aria-label="Assistir ${esc(o.titulo)}">${o.capa?`<img src="${esc(o.capa)}" alt="">`:'▶'}</button><div><h3>${esc(o.titulo)}</h3><p class="eq">${esc(o.equipe)}</p>
+  <div class="acoes">${podeVer(o)?`<button class="btn p" type="button" data-a="sala" data-id="${esc(o.id)}">▶ Assistir</button>`:'<span class="tag">Vídeo ainda não liberado</span>'}
+  ${d.estado.popular?`<button class="btn ${meu?'p':''}" type="button" data-a="votar" data-id="${esc(o.id)}">${meu?'✓ Seu voto':'Votar'}</button>`:''}
+  ${aval?`<button class="btn" type="button" data-a="sala" data-id="${esc(o.id)}">${n?'Editar nota ('+soma(n)+'/60)':'Avaliar'}</button>`:''}
+  ${jur&&o.propria?'<span class="tag">Você participou desta obra</span>':''}</div></div></article>`}
+function render(){const d=DADOS,mods=['Individual/Dupla','Grupo'],lista=d.obras.filter(o=>o.modalidade===MOD);
+  $('#area').innerHTML=`<div class="ola"><h2>Olá, ${esc(PERFIL.nome)}</h2><span class="chip">${esc(PERFIL.categoria)}</span><button class="btn" type="button" data-a="sair">Sair</button></div>
+  <div class="regras">${regras()}</div>
+  <div class="abas" role="tablist">${mods.map(m=>`<button class="btn ${m===MOD?'p':''}" type="button" role="tab" aria-selected="${m===MOD}" data-a="aba" data-m="${m}">${m} (${d.obras.filter(o=>o.modalidade===m).length})</button>`).join('')}</div>
+  ${lista.length?lista.map(card).join(''):'<p>Nenhuma obra cadastrada nesta modalidade ainda.</p>'}`}
+function formNota(o){const n=DADOS.notas[o.id]||[5,5,5,5,5,5];
+  return '<div class="form">'+CRIT.map((c,i)=>`<label>${c[0]}${c[1]?' <small>('+c[1]+')</small>':''}<output>${n[i]}</output><input type="range" min="0" max="10" step="1" value="${n[i]}" aria-label="${c[0]}"></label>`).join('')+`<p><strong>Total: <span class="tot">${soma(n)}</span>/60</strong></p><button class="btn p" type="button" data-a="salvar" data-id="${esc(o.id)}">Salvar nota</button></div>`}
+function pintarSala(){const o=SALA.lista[SALA.i],src=embedSrc(o),d=DADOS,es=d.estado,jur=PERFIL.papel!=='PUBLICO';
+  $('#sTit').textContent=o.titulo;$('#sEq').textContent=o.equipe;
+  $('#tela').innerHTML=src?`<iframe src="${esc(src)}" title="${esc(o.titulo)}" allow="fullscreen; autoplay; picture-in-picture; encrypted-media" allowfullscreen></iframe>`
+   :`<div class="semvideo"><p>${o.link?'Esta obra abre em outra aba.':'O vídeo ainda não foi liberado.'}</p>${o.link?`<a class="btn p" href="${esc(o.link)}" target="_blank" rel="noopener">▶ Assistir em outra aba</a>`:''}</div>`;
+  const a=$('#sAba');a.hidden=!o.link;a.href=o.link||'#';
+  $('#sAnt').disabled=SALA.i===0;$('#sProx').disabled=SALA.i===SALA.lista.length-1;
+  const meu=d.votos[o.modalidade]===o.id,aval=jur&&es[PERFIL.papel==='TECNICO'?'tecnico':'profissional']&&!o.propria;
+  let h='';
+  if(es.popular)h+=`<p><button class="btn ${meu?'p':''}" type="button" data-a="votar" data-id="${esc(o.id)}">${meu?'✓ Seu voto nesta obra':'Votar nesta obra'}</button> <small>(um voto em cada modalidade)</small></p>`;
+  if(aval)h+='<h3 style="margin:.8rem 0 .2rem">Sua avaliação</h3>'+formNota(o);
+  else if(jur&&o.propria)h+='<p><span class="tag">Você participou desta obra e não pode avaliá-la</span></p>';
+  $('#sAcoes').innerHTML=h||'<p>Aproveite a exibição!</p>';$('#sAcoes').hidden=false}
+function abrirSala(id){const lista=DADOS.obras.filter(o=>o.modalidade===MOD),i=lista.findIndex(o=>o.id===id);if(i<0)return;
+  SALA={lista,i};$('#sala').hidden=false;document.body.classList.add('trava');pintarSala();$('#sala').scrollTop=0;$('#sFechar').focus()}
+function fechar(){$('#sala').hidden=true;$('#tela').innerHTML='';document.body.classList.remove('trava');SALA=null;if(DADOS)render()}
+async function agir(a,el){
+  try{
+    if(a==='sair'){sessionStorage.removeItem('cod');COD='';$('#area').hidden=true;$('#login').hidden=false;return}
+    if(a==='aba'){MOD=el.dataset.m;return render()}
+    const id=el.dataset.id,o=DADOS.obras.find(x=>x.id===id);
+    if(a==='sala')return abrirSala(id);
+    if(a==='votar'){const r=await chamar({acao:'votar',codigo:COD,obra_id:id});if(!r.ok)return msg(r.erro,false);DADOS.votos[o.modalidade]=id;
+      SALA?pintarSala():render();msg('Voto registrado em "'+o.titulo+'".',true);return}
+    if(a==='salvar'){const v=[...$('#sAcoes').querySelectorAll('input')].map(i=>i.value),
+      r=await chamar({acao:'nota',codigo:COD,obra_id:id,notas:v.join(',')});if(!r.ok)return msg(r.erro,false);
+      await carregar();pintarSala();msg('Nota salva: '+r.total+'/60 para "'+o.titulo+'".',true)}
+  }catch(e){msg('Algo falhou. Tente de novo.',false)}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)agir(b.dataset.a,b)});
+document.addEventListener('input',e=>{if(e.target.type!=='range')return;e.target.previousElementSibling.textContent=e.target.value;
+  const f=e.target.closest('.form');f.querySelector('.tot').textContent=soma([...f.querySelectorAll('input')].map(i=>i.value))});
+$('#sFechar').onclick=fechar;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&SALA)fechar()});
+$('#sAnt').onclick=()=>{if(SALA&&SALA.i>0){SALA.i--;pintarSala()}};
+$('#sProx').onclick=()=>{if(SALA&&SALA.i<SALA.lista.length-1){SALA.i++;pintarSala()}};
+$('#sFull').onclick=()=>{const t=$('#tela'),f=t.requestFullscreen||t.webkitRequestFullscreen;if(f)f.call(t);else alert('Use o botão de tela cheia do próprio player, ou abra em outra aba.')};
+$('#ir').onclick=()=>entrar($('#cod').value);
+$('#cod').addEventListener('keydown',e=>{if(e.key==='Enter')entrar(e.target.value)});
+const qc=new URLSearchParams(location.search).get('c');
+if(qc){history.replaceState(null,'',location.pathname);entrar(qc)}else if(COD)entrar(COD);
+</script>
+</body>
+</html>

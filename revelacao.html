@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premiação · Festival de Animação e Feira de Jogos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#151B3B;--a:#3345E0;--b:#FF6B4A;--c:#FFC94A;--soft:#E3E8FA;--d:'Bricolage Grotesque','Trebuchet MS',sans-serif}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:Figtree,'Segoe UI',system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 50% 35%,#242E8F,var(--ink) 70%);overflow:hidden}
+.faixa{position:fixed;left:0;right:0;top:0;height:3.2vh;background:repeating-linear-gradient(115deg,var(--ink) 0 3.5vh,var(--c) 3.5vh 7vh)}
+.faixa.b{top:auto;bottom:0}
+main{height:100%;display:grid;place-items:center;text-align:center;padding:7vh 6vw}
+.k{font-size:clamp(1.1rem,2.4vw,2rem);font-weight:600;color:var(--soft)}
+.g{font-family:var(--d);font-weight:800;line-height:1;font-size:clamp(2.6rem,9vw,8rem);letter-spacing:-.02em}
+.g em{font-style:normal;color:var(--c)}
+.dica{margin-top:2rem;color:var(--soft);font-size:clamp(1rem,1.8vw,1.5rem)}
+.lugar{display:grid;gap:1.2vh;justify-items:center}
+.medalha{width:clamp(90px,15vw,190px);aspect-ratio:1;border-radius:50%;background:var(--c);color:var(--ink);border:.6vw solid #fff;display:grid;place-items:center;font-family:var(--d);font-weight:800;font-size:clamp(2.6rem,8vw,7rem);box-shadow:0 0 0 1vw rgba(255,255,255,.15)}
+.p1 .medalha{background:var(--b);color:#fff}
+.carta{background:#fff;color:var(--ink);border-radius:2.4vw;padding:3vh 3vw;max-width:80vw;box-shadow:.8vw .8vw 0 var(--b);transform-origin:50% 100%;animation:vira .8s cubic-bezier(.3,1.5,.5,1) both}
+.carta h2{font-family:var(--d);font-weight:800;font-size:clamp(2rem,6vw,5.4rem);line-height:1}
+.carta p{font-size:clamp(1.1rem,2.4vw,2.2rem);margin-top:.8vh;opacity:.8}
+@keyframes vira{from{transform:rotateX(90deg) scale(.7);opacity:0}to{transform:none;opacity:1}}
+.cont{font-family:var(--d);font-weight:800;font-size:clamp(6rem,24vw,20rem);line-height:1;color:var(--c);animation:bate .9s ease-in-out both}
+@keyframes bate{0%{transform:scale(1.5);opacity:0}30%{opacity:1}100%{transform:scale(.9)}}
+.ctl{position:fixed;right:1.2vw;bottom:5vh;display:flex;gap:.5rem;opacity:.35;transition:opacity .2s}
+.ctl:hover,.ctl:focus-within{opacity:1}
+.ctl button{font:inherit;font-weight:800;padding:.5rem 1rem;border-radius:999px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer}
+.pts{position:fixed;left:0;right:0;bottom:4.6vh;display:flex;justify-content:center;gap:.4rem}
+.pts i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3)}.pts i.on{background:var(--c)}
+.conf{position:fixed;top:-20px;width:14px;height:14px;z-index:5;pointer-events:none}
+:focus-visible{outline:3px solid var(--c);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="faixa"></div><div class="faixa b"></div>
+<main id="cena" aria-live="polite"></main>
+<div class="pts" id="pts" aria-hidden="true"></div>
+<div class="ctl"><button id="ant" type="button">‹ Anterior</button><button id="prox" type="button">Próximo ›</button><button id="tela" type="button">Tela cheia</button></div>
+<script>
+const API='https://script.google.com/macros/s/AKfycby9RIo0eG73Ox_ANsjIO8HmRTPWPYakVDdJzhrClh8FwDaLqDLuOv0ImqD7ktkcRKxmWw/exec';
+const CAT=[['popular','Gosto Popular'],['tecnico','Júri Técnico'],['profissional','Júri Profissional']],MODS=['Individual/Dupla','Grupo'];
+const $=q=>document.querySelector(q);
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let R=null,passos=[],i=0,ocupado=false,tempo=[];
+async function carregar(){
+  $('#cena').innerHTML='<p class="k">Carregando...</p>';
+  try{const r=await fetch(API+'?acao=resultado').then(x=>x.json());
+    if(!r.ok)return aviso(r.erro||'Resultados ainda não liberados.');
+    R=r.resultado;montar();
+  }catch(e){aviso('Não consegui falar com a planilha.')}
+}
+function aviso(t){$('#cena').innerHTML=`<div><p class="g" style="font-size:clamp(2rem,5vw,4rem)">${esc(t)}</p><p class="dica">No painel, mude "Revelação" para SIM e tente de novo.</p><p class="dica"><button class="btn" id="de" type="button" style="font:inherit;font-weight:800;padding:.6rem 1.4rem;border-radius:999px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer">Tentar de novo</button></p></div>`;$('#de').onclick=carregar}
+function montar(){
+  passos=[{t:'capa'}];
+  MODS.forEach(m=>CAT.forEach(([k,nome])=>{const l=(R[m]||{})[k]||[];passos.push({t:'cat',m,nome});
+    if(!l.length)passos.push({t:'vazio',m,nome});
+    for(let p=l.length;p>=1;p--)passos.push({t:'lugar',m,nome,p,x:l[p-1],k});}));
+  passos.push({t:'fim'});i=0;$('#pts').innerHTML=passos.map(()=>'<i></i>').join('');desenhar();
+}
+function desenhar(){
+  tempo.forEach(clearTimeout);tempo=[];ocupado=false;
+  [...$('#pts').children].forEach((d,n)=>d.classList.toggle('on',n===i));
+  const s=passos[i],c=$('#cena');
+  if(s.t==='capa')c.innerHTML='<div><p class="k">Festival de Animação e Feira de Jogos</p><h1 class="g">Hora da <em>premiação</em></h1><p class="dica">Pressione → ou use o botão Próximo</p></div>';
+  else if(s.t==='cat')c.innerHTML=`<div><p class="k">${esc(s.m)}</p><h1 class="g">${esc(s.nome)}</h1></div>`;
+  else if(s.t==='vazio')c.innerHTML=`<div><p class="k">${esc(s.m)} · ${esc(s.nome)}</p><p class="g" style="font-size:clamp(2rem,5vw,4rem)">Sem resultados nesta categoria</p></div>`;
+  else if(s.t==='fim'){c.innerHTML='<div><h1 class="g">Parabéns a <em>todas as equipes!</em></h1><p class="dica">Obrigado a quem criou, jogou, votou e avaliou.</p></div>';chuva(60)}
+  else lugar(s);
+}
+function lugar(s){
+  const c=$('#cena'),mostra=()=>{c.innerHTML=`<div class="lugar p${s.p}"><p class="k">${esc(s.m)} · ${esc(s.nome)}</p><div class="medalha">${s.p}º</div>
+    <div class="carta"><h2>${esc(s.x.titulo)}</h2><p>${esc(s.x.equipe)}</p></div></div>`;ocupado=false;if(s.p===1)chuva(90)};
+  if(s.p===1){ocupado=true;let n=3;const t=()=>{if(n>0){c.innerHTML=`<div><p class="k">E o 1º lugar de ${esc(s.nome)} é...</p><div class="cont" aria-hidden="true">${n}</div></div>`;n--;tempo.push(setTimeout(t,1000))}else mostra()};t()}
+  else mostra();
+}
+function chuva(q){const cores=['#FFC94A','#FF6B4A','#3345E0','#fff'];
+  for(let n=0;n<q;n++){const e=document.createElement('i');e.className='conf';e.style.left=Math.random()*100+'vw';e.style.background=cores[n%4];e.style.borderRadius=n%2?'50%':'2px';document.body.appendChild(e);
+    e.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:`translateY(${105+Math.random()*10}vh) translateX(${(Math.random()-.5)*20}vw) rotate(${Math.random()*720}deg)`,opacity:1}],{duration:2200+Math.random()*2200,delay:Math.random()*600,easing:'cubic-bezier(.3,.2,.6,1)'}).onfinish=()=>e.remove()}}
+function prox(){if(!R||ocupado||i>=passos.length-1)return;i++;desenhar()}
+function ant(){if(!R||i<=0)return;i--;desenhar()}
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','Enter','PageDown'].includes(e.key)){e.preventDefault();prox()}else if(['ArrowLeft','PageUp'].includes(e.key))ant();else if(e.key==='f')tela()});
+function tela(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+$('#prox').onclick=prox;$('#ant').onclick=ant;$('#tela').onclick=tela;
+carregar();
+</script>
+</body>
+</html>

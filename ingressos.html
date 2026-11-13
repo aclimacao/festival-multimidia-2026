@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="tinta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de ingressos · Festival de Animação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{--bg:#F4F6FB;--ink:#151B3B;--a:#3345E0;--b:#FF6B4A;--c:#FFC94A;--soft:#E3E8FA;--card:#fff;
+ --display:'Bricolage Grotesque','Trebuchet MS',sans-serif;--texto:'Figtree','Segoe UI',system-ui,sans-serif}
+[data-tema=floresta]{--bg:#F2F7F3;--ink:#10302B;--a:#0F7B6C;--b:#FF8A5B;--c:#F6D55C;--soft:#DDEDE6}
+[data-tema=ameixa]{--bg:#F8F4FC;--ink:#2A1240;--a:#7B3FE4;--b:#FF5C8A;--c:#F7D046;--soft:#ECE1F8}
+[data-tema=cinema]{--bg:#F6F1EE;--ink:#2B0A12;--a:#8E1B34;--b:#E3A63A;--c:#2F7A87;--soft:#EBDDD6}
+*{box-sizing:border-box;margin:0}
+body{font-family:var(--texto);background:var(--bg);color:var(--ink);line-height:1.5}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1.5rem;border-bottom:2px solid var(--ink)}
+header b{font-family:var(--display);font-weight:800;font-size:1.15rem}
+header a{font-weight:600;text-decoration:none}
+.app{display:grid;grid-template-columns:340px 1fr;gap:1.5rem;padding:1.5rem;align-items:start}
+.painel{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:1.2rem;box-shadow:6px 6px 0 var(--ink);position:sticky;top:1rem;display:grid;gap:.9rem;max-height:calc(100vh - 2rem);overflow:auto}
+.painel h2{font-family:var(--display);font-size:1.4rem;line-height:1.1}
+label{display:grid;gap:.25rem;font-weight:800;font-size:.85rem}
+input[type=text],textarea,select{font:inherit;font-weight:400;border:2px solid var(--ink);border-radius:10px;padding:.5rem .65rem;background:#fff;color:var(--ink);width:100%}
+textarea{min-height:150px;resize:vertical;font-size:.9rem}
+.chk{display:flex;align-items:center;gap:.5rem;font-weight:600}
+.btn{font:inherit;font-weight:800;padding:.65rem 1.1rem;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.p{background:var(--a);color:#fff}
+.fila{display:flex;gap:.5rem;flex-wrap:wrap}
+.nota{font-size:.82rem;opacity:.75}
+.res{background:var(--soft);border-radius:12px;padding:.6rem .8rem;font-weight:800}
+.palco{overflow-x:auto;padding-bottom:1rem}
+.folha{width:210mm;min-height:297mm;margin:0 auto 1.2rem;padding:12.5mm 10mm;background:#fff;box-shadow:0 6px 24px rgba(0,0,0,.15);display:grid;grid-template-columns:repeat(2,95mm);grid-auto-rows:66mm;break-after:page}
+.corte{border:1px dashed #9a9a9a;padding:1.6mm}
+.tk{--ink:#25297E;--b:#E6007E;--c:#FFD84A;--ci:#8EDAF6;height:100%;display:grid;grid-template-columns:1fr 27mm;background:#fff;border:.5mm solid var(--ink);border-radius:3mm;overflow:hidden;position:relative;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.tk::before,.tk::after{content:"";position:absolute;right:calc(27mm - 1.8mm);width:3.6mm;height:3.6mm;border-radius:50%;background:#fff;border:.4mm solid var(--ink);z-index:2}
+.tk::before{top:-1.9mm}.tk::after{bottom:-1.9mm}
+.esq{display:flex;flex-direction:column;min-width:0;padding:2.4mm 3mm;gap:.7mm}
+.data{font-size:7pt;font-weight:800}
+.tit{font-family:var(--display);font-weight:800;font-size:14pt;line-height:1}
+.tit2{font-family:var(--display);font-weight:800;font-size:12pt;line-height:1;color:var(--b)}
+.nome{font-size:12.5pt;font-weight:800;line-height:1.1;margin-top:1.2mm;overflow-wrap:anywhere}
+.sub{font-size:8pt;font-weight:700}
+.fases{display:grid;gap:1mm;margin-top:auto}
+.fase{display:flex;align-items:baseline;gap:1.6mm;border:.35mm solid var(--ink);border-radius:1.6mm;padding:.5mm 1.8mm;font-size:7.4pt;font-weight:700;line-height:1.2}
+.fase b{font-size:8.2pt}.fase.a{background:var(--ci)}.fase.j{background:var(--c)}
+.dir{background:var(--ci);border-left:.5mm dashed var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;padding:2mm}
+.qr{width:21mm;height:21mm;background:#fff;padding:1mm;border:.4mm solid var(--ink)}
+.qr svg{width:100%;height:100%;display:block}
+.cod{background:var(--ink);color:#fff;font-weight:800;font-size:13pt;letter-spacing:.18em;padding:.3mm 1.8mm .3mm 2.4mm;border-radius:1.4mm}
+.dir small{font-size:6.2pt;font-weight:800;text-align:center;line-height:1.15}
+.vazio{padding:3rem;text-align:center;font-weight:600}
+@media(max-width:900px){.app{grid-template-columns:1fr}.painel{position:static;max-height:none}}
+@page{size:A4;margin:0}
+@media print{body{background:#fff}header,.painel,.vazio{display:none!important}.app{display:block;padding:0}.palco{overflow:visible;padding:0}.folha{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+<header><b>Festival de Animação · Gerador de ingressos</b><a href="index.html">Voltar ao site</a></header>
+<div class="app">
+ <aside class="painel">
+  <h2>Ingressos em lote</h2>
+  <label>Lista de alunos
+   <textarea id="lista" spellcheck="false" placeholder="Nome;Turma ou tipo;Código (opcional)"></textarea></label>
+  <p class="nota">Uma pessoa por linha: <b>Nome;Turma ou tipo;Código</b>. Sem nome, sai como Convidado; sem código, o sistema gera um. Aceita colar da planilha.</p>
+  <div class="fila">
+   <label class="btn" style="cursor:pointer">Abrir CSV<input id="arq" type="file" accept=".csv,.txt" hidden></label>
+   <button class="btn" id="limpar" type="button">Limpar</button>
+  </div>
+  <label>Convidados em branco (quantidade e tipo)</label><div class="fila"><input type="text" id="qtd" value="20" style="width:70px"><input type="text" id="cat" value="CONVIDADO" style="width:140px"><button class="btn" id="addconv" type="button">Adicionar</button></div>
+  <label>Ou carregar da planilha (link do Apps Script)<input type="text" id="url" value="https://script.google.com/macros/s/AKfycby9RIo0eG73Ox_ANsjIO8HmRTPWPYakVDdJzhrClh8FwDaLqDLuOv0ImqD7ktkcRKxmWw/exec" placeholder="https://script.google.com/macros/s/.../exec"></label>
+  <button class="btn" id="buscar" type="button">Buscar da planilha</button>
+  <hr style="border:1px solid var(--soft)">
+  <label>Nome do evento<input type="text" id="evento" value="Festival de Animação"></label>
+  <label>Segundo nome (destaque)<input type="text" id="evento2" value="Feira de Jogos"></label>
+  <label>Data e local<input type="text" id="local" value="01/12 · Auditório e Foyer"></label>
+  <label>Endereço do site (vai no QR Code)<input type="text" id="base" value="https://SEU-USUARIO.github.io/festival-animacao/"></label>
+  <label>Mostrar turma ou tipo<select id="turma"><option value="">Todas as turmas</option></select></label>
+  <label class="chk"><input type="checkbox" id="abrev" checked> Abreviar sobrenome (ex.: João H.)</label>
+  <div class="res" id="res"></div>
+  <div class="fila">
+   <button class="btn p" id="imprimir" type="button">Imprimir ingressos</button>
+   <button class="btn" id="baixar" type="button">Baixar CSV com códigos</button>
+  </div>
+  <p class="nota">Dica: na impressão, escolha A4, escala 100% e sem margens. O ingresso usa só ciano, magenta e amarelo (azul-violeta no lugar do preto). Cada folha leva 8 ingressos, com linhas tracejadas para recortar.</p>
+  <div class="fila" role="group" aria-label="Paleta"><span class="nota">Paleta</span>
+   <button class="btn" data-t="tinta" style="background:#3345E0;width:30px;height:30px;padding:0" aria-label="Tinta"></button>
+   <button class="btn" data-t="floresta" style="background:#0F7B6C;width:30px;height:30px;padding:0" aria-label="Floresta"></button>
+   <button class="btn" data-t="ameixa" style="background:#7B3FE4;width:30px;height:30px;padding:0" aria-label="Ameixa"></button>
+   <button class="btn" data-t="cinema" style="background:#8E1B34;width:30px;height:30px;padding:0" aria-label="Cinema"></button></div>
+ </aside>
+ <main class="palco" id="palco"></main>
+</div>
+
+<script>
+/* ===== CONFIGURAÇÃO ===== */
+const FASE_POR_TURMA={ADM4:'A',MULTI5:'A',INFO12:'A',MULTI4:'F',ADM5:'F',ADM6:'F'}; /* A = Auditório primeiro; F = Foyer primeiro */
+const FA='8h20–10h',FB='10h20–11h55';
+const POR_FOLHA=8, ALF='ABCDEFGHJKMNPQRSTUVWXYZ23456789', LIGACAO=new Set(['de','da','do','das','dos','e']);
+const EXEMPLO='Maria Souza Lima;MULTI5\nJoão Henrique Alves;ADM5\nAna Clara de Oliveira;ADM4\nPedro Santos;MULTI4\nLívia Fernandes;INFO12\nCarlos Eduardo Rocha;ADM6';
+const $=id=>document.getElementById(id);
+let alunos=[];
+
+function novoCodigo(usados){let c;do{const b=new Uint8Array(5);crypto.getRandomValues(b);const s=[...b].map(x=>ALF[x%ALF.length]).join('');c=s}while(usados.has(c));usados.add(c);return c}
+function abreviar(n){const p=n.trim().split(/\s+/);if(p.length<2)return n.trim();const t=p.slice(1).find(x=>!LIGACAO.has(x.toLowerCase()))||p[1];return p[0]+' '+t[0].toUpperCase()+'.'}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function qr(txt){if(typeof qrcode==='undefined')return '<small>QR indisponível</small>';const q=qrcode(0,'M');q.addData(txt);q.make();return q.createSvgTag(4,0).replace(/ width="\d+px"| height="\d+px"/g,'')}
+
+function ler(){
+  const usados=new Set(),linhas=$('lista').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const bruto=linhas.map(l=>l.split(/[;\t]|,(?=\s*[A-Za-z0-9]+\s*(?:,|$))/).map(x=>x.trim()));
+  if(bruto.length&&/^nome$/i.test(bruto[0][0]))bruto.shift();
+  bruto.forEach(r=>{if(r[2])usados.add(r[2].toUpperCase())});
+  alunos=bruto.filter(r=>r.some(Boolean)).map(r=>({nome:r[0]||'Convidado',turma:(r[1]||'').toUpperCase(),codigo:(r[2]||'').toUpperCase()||novoCodigo(usados)}));
+}
+function render(){
+  const sel=$('turma'),atual=sel.value,turmas=[...new Set(alunos.map(a=>a.turma).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Todas as turmas</option>'+turmas.map(t=>`<option ${t===atual?'selected':''}>${t}</option>`).join('');
+  const lista=alunos.filter(a=>!sel.value||a.turma===sel.value);
+  const folhas=Math.ceil(lista.length/POR_FOLHA);
+  $('res').textContent=`${lista.length} ingresso(s) · ${folhas} folha(s) A4`;
+  if(!lista.length){$('palco').innerHTML='<p class="vazio">Cole a lista de alunos ao lado para gerar os ingressos.</p>';return}
+  const base=$('base').value.replace(/\/?$/,'/'),ab=$('abrev').checked;
+  const tk=a=>{const f=FASE_POR_TURMA[a.turma],
+   L=f==='A'?[[FA,'Auditório','Animações','a'],[FB,'Foyer','Jogos','j']]:f==='F'?[[FA,'Foyer','Jogos','j'],[FB,'Auditório','Animações','a']]:[['','Auditório','Animações','a'],['','Foyer','Jogos','j']];
+   return `<div class="corte"><div class="tk"><div class="esq"><span class="data">${esc($('local').value)}</span><span class="tit">${esc($('evento').value)}</span><span class="tit2">+ ${esc($('evento2').value)}</span>
+    <span class="nome">${esc(ab?abreviar(a.nome):a.nome)}</span><span class="sub">${esc(a.turma)}</span>
+    <div class="fases">${L.map(x=>`<div class="fase ${x[3]}">${x[0]?`<b>${x[0]}</b>`:''}<span>${x[1]} · ${x[2]}</span></div>`).join('')}</div></div>
+    <div class="dir"><div class="qr">${qr(base+'votar.html?c='+encodeURIComponent(a.codigo))}</div><span class="cod">${a.codigo}</span><small>Escaneie<br>para entrar</small></div></div></div>`};
+  let h='';for(let i=0;i<lista.length;i+=POR_FOLHA)h+=`<div class="folha">${lista.slice(i,i+POR_FOLHA).map(tk).join('')}</div>`;
+  $('palco').innerHTML=h;
+}
+function tudo(){ler();render()}
+$('lista').value=EXEMPLO;
+['lista','base','evento','evento2','local'].forEach(i=>$(i).addEventListener('input',()=>{i==='lista'?tudo():render()}));
+['turma','abrev'].forEach(i=>$(i).addEventListener('change',render));
+$('limpar').onclick=()=>{$('lista').value='';tudo()};
+$('addconv').onclick=()=>{const n=Math.min(500,parseInt($('qtd').value)||0),c=($('cat').value||'CONVIDADO').trim();const add=Array.from({length:n},()=>';'+c).join('\n');const v=$('lista').value.trim();$('lista').value=(v?v+'\n':'')+add;tudo()};
+$('imprimir').onclick=()=>window.print();
+$('arq').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{$('lista').value=t;tudo()})};
+$('buscar').onclick=()=>{const u=$('url').value.trim();if(!u)return alert('Cole o link do Apps Script.');
+ fetch(u+(u.includes('?')?'&':'?')+'acao=admin_ingressos&pin='+encodeURIComponent(prompt('PIN do painel')||'')).then(r=>r.json()).then(j=>{if(j.ok===false)return alert(j.erro);const arr=Array.isArray(j)?j:(j.ingressos||j.alunos||j.dados||[]);
+  $('lista').value=arr.map(o=>{const k={};Object.keys(o).forEach(x=>k[x.toLowerCase()]=o[x]);return [k.nome||'',k.turma||'',k.codigo||k['código']||''].join(';')}).join('\n');tudo()})
+ .catch(()=>alert('Não consegui carregar. Confira se o link termina em /exec e está publicado para qualquer pessoa.'))};
+$('baixar').onclick=()=>{const csv='\ufeffnome;turma;codigo\n'+alunos.map(a=>[a.nome,a.turma,a.codigo].join(';')).join('\n');
+ const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));l.download='ingressos-codigos.csv';l.click()};
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>document.documentElement.dataset.tema=b.dataset.t);
+tudo();
+</script>
+</body>
+</html>

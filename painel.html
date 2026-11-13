@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel · Festival de Animação e Feira de Jogos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6FB;--ink:#151B3B;--a:#3345E0;--b:#FF6B4A;--c:#FFC94A;--soft:#E3E8FA;--card:#fff}
+*{box-sizing:border-box;margin:0}
+body{font-family:Figtree,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+header{padding:.9rem 1.5rem;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+header b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem}
+main{max-width:980px;margin:0 auto;padding:1.5rem}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;box-shadow:6px 6px 0 var(--ink)}
+h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:.5rem}
+label{display:grid;gap:.2rem;font-weight:800;font-size:.85rem}
+input,select{font:inherit;font-weight:400;border:2px solid var(--ink);border-radius:10px;padding:.5rem .65rem;background:#fff;color:var(--ink);width:100%}
+.btn{font:inherit;font-weight:800;padding:.6rem 1.2rem;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
+.p{background:var(--a);color:#fff}
+.linha{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:.8rem 0;align-items:end}
+.st{display:inline-block;font-weight:800;border:2px solid var(--ink);border-radius:999px;padding:0 .8rem;font-size:.9rem}
+.st.on{background:#B6F0C8}.st.off{background:#FFD6D2}
+.nums{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.nums div{background:var(--soft);border-radius:14px;padding:.6rem .9rem}.nums b{display:block;font-size:1.6rem;font-family:'Bricolage Grotesque',sans-serif}
+#msg{font-weight:800;min-height:1.5em;margin:.5rem 0}.erro{color:#B3261E}.ok{color:var(--a)}
+.nota{font-size:.88rem;opacity:.8}
+ol{margin-left:1.3rem}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+</style>
+</head>
+<body>
+<header><b>Painel do Festival</b><nav style="display:flex;gap:1rem;font-weight:600"><a href="index.html">Site</a><a href="ingressos.html">Gerar ingressos</a><a href="revelacao.html" target="_blank">Tela de revelação</a></nav></header>
+<main>
+<section class="card" id="entrada" style="max-width:480px">
+  <h2>Entrar no painel</h2>
+  <label>PIN<input type="password" id="pin" autocomplete="off"></label>
+  <p style="margin-top:.8rem"><button class="btn p" id="entrar" type="button">Entrar</button></p>
+</section>
+<p id="msg" role="status" aria-live="polite"></p>
+<div id="painel" hidden>
+  <section class="card"><h2>Situação</h2><div class="nums" id="nums"></div><p style="margin-top:.8rem"><button class="btn" id="atualizar" type="button">Atualizar</button></p></section>
+  <div id="cartoes"></div>
+  <section class="card"><h2>Outros controles</h2>
+    <div class="linha">
+      <label>Vídeos liberados na votação popular<select id="videos_popular"><option>SIM</option><option>NAO</option></select></label>
+      <label>Revelação dos vencedores (projetor)<select id="revelacao"><option>NAO</option><option>SIM</option></select></label>
+    </div>
+    <p class="nota">As mudanças desta caixa valem na hora.</p>
+  </section>
+  <section class="card"><h2>Resultados parciais</h2><p class="nota">Só você vê isto. O público só vê quando a revelação estiver em SIM.</p>
+    <p style="margin:.6rem 0"><button class="btn" id="res" type="button">Ver resultados</button></p><div id="resultado"></div></section>
+</div>
+</main>
+<script>
+const API='https://script.google.com/macros/s/AKfycby9RIo0eG73Ox_ANsjIO8HmRTPWPYakVDdJzhrClh8FwDaLqDLuOv0ImqD7ktkcRKxmWw/exec';
+const GRUPOS=[['popular','Gosto Popular'],['tecnico','Júri Técnico'],['profissional','Júri Profissional']];
+const $=q=>document.querySelector(q);let PIN='';
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const chamar=p=>fetch(API+'?'+new URLSearchParams(Object.assign({},p,{pin:PIN}))).then(r=>r.json());
+function msg(t,ok){const m=$('#msg');m.textContent=t;m.className=ok?'ok':'erro'}
+async function atualizar(){
+  if(API.indexOf('COLE')===0)return msg('Cole o link do Apps Script no começo do código (constante API).',false);
+  try{const r=await chamar({acao:'admin_estado'});if(!r.ok)return msg(r.erro,false);
+    PIN=PIN;$('#entrada').hidden=true;$('#painel').hidden=false;msg('',true);desenhar(r)}
+  catch(e){msg('Não consegui falar com a planilha.',false)}
+}
+function desenhar(r){const c=r.config,k=r.contagem;
+  $('#nums').innerHTML=[['Ingressos',k.ingressos],['Obras',k.obras],['Votos populares',k.votosPopular],['Notas do técnico',k.notasTecnico],['Notas do profissional',k.notasProfissional]].map(x=>`<div>${x[0]}<b>${x[1]}</b></div>`).join('');
+  $('#cartoes').innerHTML=GRUPOS.map(([g,nome])=>`<section class="card" data-g="${g}"><h2>${nome} <span class="st ${r.estado[g]?'on':'off'}">${r.estado[g]?'Aberta agora':'Fechada agora'}</span></h2>
+   <div class="linha"><label>Modo<select data-k="${g}_modo">${['AUTO','ABERTO','FECHADO'].map(m=>`<option ${c[g+'_modo']===m?'selected':''}>${m}</option>`).join('')}</select></label>
+   <label>Início<input data-k="${g}_inicio" value="${esc(c[g+'_inicio'])}"></label><label>Fim<input data-k="${g}_fim" value="${esc(c[g+'_fim'])}"></label>
+   <button class="btn p" type="button" data-salvar="${g}">Salvar</button></div>
+   <p class="nota">AUTO segue as datas (aaaa-mm-dd hh:mm). ABERTO ou FECHADO ignora as datas e vale na hora.</p></section>`).join('');
+  ['videos_popular','revelacao'].forEach(id=>$('#'+id).value=c[id]||'NAO');
+}
+async function definir(chave,valor){const r=await chamar({acao:'admin_set',chave,valor});if(!r.ok)throw new Error(r.erro)}
+$('#cartoes').addEventListener('click',async e=>{const b=e.target.closest('[data-salvar]');if(!b)return;
+  const sec=b.closest('section');
+  try{for(const el of sec.querySelectorAll('[data-k]'))await definir(el.dataset.k,el.value.trim());msg('Salvo.',true);atualizar()}
+  catch(err){msg(err.message||'Não foi possível salvar.',false)}});
+['videos_popular','revelacao'].forEach(id=>$('#'+id).addEventListener('change',async e=>{
+  try{await definir(id,e.target.value);msg('Salvo.',true);atualizar()}catch(err){msg(err.message,false)}}));
+$('#entrar').onclick=()=>{PIN=$('#pin').value;atualizar()};
+$('#pin').addEventListener('keydown',e=>{if(e.key==='Enter'){PIN=e.target.value;atualizar()}});
+$('#atualizar').onclick=atualizar;
+$('#res').onclick=async()=>{try{const r=await chamar({acao:'admin_resultados'});if(!r.ok)return msg(r.erro,false);
+  const nomes={popular:'Gosto Popular',tecnico:'Júri Técnico',profissional:'Júri Profissional'};
+  $('#resultado').innerHTML=Object.keys(r.resultado).map(m=>`<h3 style="margin-top:1rem">${esc(m)}</h3>`+Object.keys(nomes).map(t=>{const l=r.resultado[m][t];
+    return `<p><strong>${nomes[t]}</strong></p>`+(l.length?`<ol>${l.map(x=>`<li>${esc(x.titulo)} <small>(${esc(x.equipe)}${x.valor!=null?' · '+x.valor:''})</small></li>`).join('')}</ol>`:'<p class="nota">Sem dados ainda.</p>')}).join('')).join('')}
+  catch(e){msg('Não consegui carregar.',false)}};
+</script>
+</body>
+</html>

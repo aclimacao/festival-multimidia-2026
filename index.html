@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="tinta">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Festival de Animação + Feira de Jogos · Senac Aclimação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F4F6FB;
+      --ink: #151B3B;
+      --a: #3345E0;
+      --b: #FF6B4A;
+      --c: #FFC94A;
+      --soft: #E3E8FA;
+      --card: #fff;
+      --display: 'Bricolage Grotesque', 'Trebuchet MS', sans-serif;
+      --texto: 'Figtree', 'Segoe UI', system-ui, sans-serif
+    }
+
+    [data-tema=floresta] {
+      --bg: #F2F7F3;
+      --ink: #10302B;
+      --a: #0F7B6C;
+      --b: #FF8A5B;
+      --c: #F6D55C;
+      --soft: #DDEDE6
+    }
+
+    [data-tema=ameixa] {
+      --bg: #F8F4FC;
+      --ink: #2A1240;
+      --a: #7B3FE4;
+      --b: #FF5C8A;
+      --c: #F7D046;
+      --soft: #ECE1F8
+    }
+
+    [data-tema=cinema] {
+      --bg: #F6F1EE;
+      --ink: #2B0A12;
+      --a: #8E1B34;
+      --b: #E3A63A;
+      --c: #2F7A87;
+      --soft: #EBDDD6
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--texto);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background .4s
+    }
+
+    a {
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--b);
+      outline-offset: 3px
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .8rem 1.5rem;
+      border-bottom: 2px solid var(--ink)
+    }
+
+    header b {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.15rem
+    }
+
+    nav {
+      display: flex;
+      gap: 1.4rem;
+      font-weight: 600;
+      font-size: .95rem;
+      overflow-x: auto
+    }
+
+    nav a {
+      text-decoration: none;
+      white-space: nowrap
+    }
+
+    nav a:hover {
+      color: var(--a)
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 3rem;
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center
+    }
+
+    .claquete {
+      display: inline-block;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--card);
+      margin-bottom: 1.4rem;
+      font-weight: 800;
+      box-shadow: 4px 4px 0 var(--ink)
+    }
+
+    .claquete i {
+      display: block;
+      height: 14px;
+      background: repeating-linear-gradient(115deg, var(--ink) 0 16px, var(--card) 16px 32px);
+      border-bottom: 2px solid var(--ink)
+    }
+
+    .claquete span {
+      display: block;
+      padding: .35rem .9rem;
+      font-size: .95rem
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(3rem, 9vw, 6.6rem);
+      line-height: .92;
+      letter-spacing: -.03em
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--a);
+      position: relative;
+      display: inline-block
+    }
+
+    h1 svg {
+      position: absolute;
+      left: 0;
+      bottom: -.14em;
+      width: 100%;
+      height: .3em;
+      overflow: visible
+    }
+
+    h1 path {
+      fill: none;
+      stroke: var(--b);
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-dasharray: 420;
+      stroke-dashoffset: 420;
+      animation: traco 1.1s .5s cubic-bezier(.6, 0, .2, 1) forwards
+    }
+
+    @keyframes traco {
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    .sub {
+      font-size: 1.25rem;
+      max-width: 34ch;
+      margin: 1.6rem 0 1.5rem
+    }
+
+    .botoes {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 800;
+      padding: .85rem 1.6rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      transition: transform .15s
+    }
+
+    .btn:hover {
+      transform: translateY(-3px)
+    }
+
+    .p {
+      background: var(--a);
+      color: #fff
+    }
+
+    .s {
+      background: var(--card)
+    }
+
+    .anim {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 28px;
+      padding: .6rem;
+      box-shadow: 8px 8px 0 var(--ink)
+    }
+
+    .anim svg {
+      width: 100%;
+      display: block
+    }
+
+    .anim figcaption {
+      font-size: .85rem;
+      font-weight: 600;
+      padding: .3rem .8rem .5rem;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .dados {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    }
+
+    .dado {
+      background: var(--soft);
+      border-radius: 18px;
+      padding: 1rem 1.3rem
+    }
+
+    .dado small {
+      font-weight: 600;
+      opacity: .75
+    }
+
+    .dado b {
+      display: block;
+      font-family: var(--display);
+      font-size: 1.5rem;
+      line-height: 1.2
+    }
+
+    section {
+      padding: 4.5rem 1.5rem
+    }
+
+    .in {
+      max-width: 1120px;
+      margin: 0 auto
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: .6rem
+    }
+
+    .lead {
+      max-width: 58ch;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: .85
+    }
+
+    .tres {
+      display: grid;
+      gap: 1.3rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    }
+
+    .tres article {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden
+    }
+
+    .tres article:nth-child(1) {
+      border-radius: 30px 30px 30px 6px
+    }
+
+    .tres article:nth-child(2) {
+      border-radius: 6px 30px 30px 30px
+    }
+
+    .tres article:nth-child(3) {
+      border-radius: 30px 6px 30px 30px
+    }
+
+    .tres h3 {
+      font-family: var(--display);
+      font-size: 1.55rem;
+      margin-bottom: .3rem
+    }
+
+    .tres article::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--c);
+      border: 2px solid var(--ink)
+    }
+
+    .tres article:nth-child(2)::after {
+      background: var(--b);
+      border-radius: 14px;
+      transform: rotate(20deg)
+    }
+
+    .tres article:nth-child(3)::after {
+      background: var(--a);
+      border-radius: 50% 0
+    }
+
+    /* programação como linha do tempo */
+    .linha {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .regua {
+      height: 34px;
+      border-bottom: 2px solid var(--ink);
+      background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 28px) 0 100%/100% 12px no-repeat, var(--soft);
+      position: relative
+    }
+
+    .cabeca {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background: var(--b);
+      z-index: 2;
+      animation: varre 7s linear infinite
+    }
+
+    .cabeca::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 18px;
+      height: 20px;
+      background: var(--b);
+      clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%)
+    }
+
+    @keyframes varre {
+      to {
+        left: 100%
+      }
+    }
+
+    .sessoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0
+    }
+
+    .clipe {
+      padding: 1.5rem;
+      border-right: 2px solid var(--ink)
+    }
+
+    .clipe:last-child {
+      border: 0
+    }
+
+    .clipe h3 {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .clipe h3::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      background: var(--b);
+      transform: rotate(45deg);
+      border: 2px solid var(--ink);
+      flex: none
+    }
+
+    .clipe:nth-child(2) h3::before {
+      background: var(--a)
+    }
+
+    .turmas {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin: .5rem 0
+    }
+
+    .turmas b {
+      background: var(--c);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 0 .7rem;
+      font-size: .88rem
+    }
+
+    .tbd {
+      font-style: italic;
+      opacity: .7
+    }
+
+    @media(max-width:700px) {
+      .hero {
+        grid-template-columns: 1fr
+      }
+
+      .sessoes {
+        grid-template-columns: 1fr
+      }
+
+      .clipe {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink)
+      }
+    }
+
+    .grade {
+      display: grid;
+      gap: 1.3rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))
+    }
+
+    .curta {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform .2s
+    }
+
+    .curta:hover {
+      transform: translateY(-5px) rotate(-1deg)
+    }
+
+    .capa {
+      aspect-ratio: 16/10;
+      border-bottom: 2px solid var(--ink);
+      display: grid;
+      place-items: center;
+      position: relative
+    }
+
+    .capa::after {
+      content: "";
+      border-left: 26px solid var(--ink);
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+      margin-left: 8px
+    }
+
+    .curta p {
+      padding: .8rem 1rem;
+      font-weight: 800
+    }
+
+    .curta small {
+      display: block;
+      font-weight: 400;
+      opacity: .7
+    }
+
+    .duo {
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      align-items: center
+    }
+
+    .juri {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      padding: 1.2rem 1.4rem
+    }
+
+    .juri+.juri {
+      margin-top: 1rem
+    }
+
+    .juri h3 {
+      font-family: var(--display);
+      font-size: 1.35rem
+    }
+
+    .ingresso {
+      display: grid;
+      grid-template-columns: 1fr 112px;
+      background: var(--c);
+      border: 2px solid var(--ink);
+      border-radius: 18px;
+      position: relative;
+      transform: rotate(-2deg);
+      box-shadow: 8px 8px 0 var(--ink)
+    }
+
+    .ingresso::before,
+    .ingresso::after {
+      content: "";
+      position: absolute;
+      right: 98px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--ink)
+    }
+
+    .ingresso::before {
+      top: -14px
+    }
+
+    .ingresso::after {
+      bottom: -14px
+    }
+
+    .il {
+      padding: 1.3rem 1.4rem;
+      border-right: 3px dashed var(--ink)
+    }
+
+    .il h3 {
+      font-family: var(--display);
+      font-size: 1.7rem;
+      line-height: 1;
+      margin: .2rem 0 .7rem
+    }
+
+    .il p {
+      font-weight: 800
+    }
+
+    .il em {
+      display: inline-block;
+      margin-top: .5rem;
+      background: var(--ink);
+      color: var(--c);
+      font-style: normal;
+      font-weight: 800;
+      padding: 0 .7rem;
+      border-radius: 6px;
+      letter-spacing: .08em
+    }
+
+    .ir {
+      display: grid;
+      place-items: center
+    }
+
+    .qr {
+      width: 74px;
+      aspect-ratio: 1;
+      background: conic-gradient(var(--ink) 25%, #fff 0 50%, var(--ink) 0 75%, #fff 0) 0 0/18.5px 18.5px;
+      border: 4px solid #fff;
+      outline: 2px solid var(--ink)
+    }
+
+    footer {
+      background: var(--ink);
+      color: var(--bg);
+      text-align: center;
+      padding: 2.4rem 1rem
+    }
+
+    footer b {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      color: var(--c)
+    }
+
+
+    .visor {
+      position: relative;
+      border-radius: 20px;
+      background: radial-gradient(circle at 50% 40%, var(--card), var(--soft));
+      padding: 1rem;
+      cursor: pointer
+    }
+
+    .visor::before,
+    .visor::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 4px solid var(--ink);
+      pointer-events: none
+    }
+
+    .visor::before {
+      left: 12px;
+      top: 12px;
+      border-right: 0;
+      border-bottom: 0
+    }
+
+    .visor::after {
+      right: 12px;
+      bottom: 12px;
+      border-left: 0;
+      border-top: 0
+    }
+
+    .rec {
+      position: absolute;
+      right: 20px;
+      top: 14px;
+      font-size: .8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: .4rem
+    }
+
+    .rec::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #E5322D;
+      animation: rec 1.2s steps(1) infinite
+    }
+
+    @keyframes rec {
+      50% {
+        opacity: 0
+      }
+    }
+
+    #mascote {
+      width: 100%;
+      max-height: 420px;
+      overflow: visible
+    }
+
+    .pula {
+      transform-origin: 200px 386px;
+      animation: pula 2.6s ease-in-out infinite
+    }
+
+    @keyframes pula {
+
+      0%,
+      100% {
+        transform: scale(1.05, .95)
+      }
+
+      18% {
+        transform: translateY(-22px) scale(.97, 1.04)
+      }
+
+      36% {
+        transform: scale(1.05, .95)
+      }
+
+      50% {
+        transform: none
+      }
+    }
+
+    .bate {
+      transform-origin: 94px 150px;
+      animation: bate 2.6s ease-in-out infinite
+    }
+
+    @keyframes bate {
+
+      0%,
+      45%,
+      100% {
+        transform: rotate(0)
+      }
+
+      60% {
+        transform: rotate(-30deg)
+      }
+
+      68% {
+        transform: rotate(0)
+      }
+    }
+
+    .acena {
+      transform-origin: 310px 270px;
+      animation: acena 1.1s ease-in-out infinite alternate
+    }
+
+    @keyframes acena {
+      to {
+        transform: rotate(-22deg)
+      }
+    }
+
+    .olhos {
+      animation: pisca 4s infinite;
+      transform-origin: 200px 266px
+    }
+
+    @keyframes pisca {
+
+      0%,
+      94%,
+      100% {
+        transform: scaleY(1)
+      }
+
+      97% {
+        transform: scaleY(.1)
+      }
+    }
+
+    .sombra {
+      transform-origin: 200px 392px;
+      animation: sombra 2.6s ease-in-out infinite
+    }
+
+    @keyframes sombra {
+      18% {
+        transform: scaleX(.8);
+        opacity: .1
+      }
+    }
+
+    .visor.clap .bate {
+      animation: bate2 .5s ease-in-out
+    }
+
+    @keyframes bate2 {
+      50% {
+        transform: rotate(-35deg)
+      }
+    }
+
+    .confete {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--ink);
+      pointer-events: none;
+      z-index: 5
+    }
+
+
+    button.btn {
+      font: inherit;
+      font-weight: 800;
+      background: var(--card);
+      color: var(--ink);
+      cursor: pointer
+    }
+
+    button.btn.p {
+      background: var(--a);
+      color: #fff
+    }
+
+    .login {
+      max-width: 520px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 24px;
+      padding: 1.4rem;
+      box-shadow: 8px 8px 0 var(--ink)
+    }
+
+    .login input {
+      font: inherit;
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      text-align: center;
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: .6rem;
+      margin: .8rem 0
+    }
+
+    #msg {
+      margin-top: .8rem;
+      font-weight: 800;
+      min-height: 1.5em
+    }
+
+    .erro {
+      color: #B3261E
+    }
+
+    .ok {
+      color: var(--a)
+    }
+
+    .ola {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .8rem
+    }
+
+    .ola h3 {
+      font-family: var(--display);
+      font-size: 1.9rem
+    }
+
+    .chip {
+      background: var(--c);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 0 .8rem;
+      font-weight: 800;
+      font-size: .9rem
+    }
+
+    .regras {
+      background: var(--soft);
+      border-radius: 18px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0
+    }
+
+    .regras ul {
+      margin: 0 0 .6rem 1.2rem
+    }
+
+    .regras p {
+      margin-top: .4rem
+    }
+
+    .abas {
+      display: flex;
+      gap: .6rem;
+      margin: 1rem 0;
+      flex-wrap: wrap
+    }
+
+    .obra {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 1rem;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      padding: .8rem;
+      margin-bottom: 1rem
+    }
+
+    .capa-o {
+      aspect-ratio: 16/10;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: var(--soft);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-size: 1.6rem
+    }
+
+    .capa-o img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .obra h3 {
+      font-family: var(--display);
+      font-size: 1.3rem
+    }
+
+    .eq {
+      opacity: .75
+    }
+
+    .acoes {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin: .6rem 0
+    }
+
+    .form label {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .1rem .6rem;
+      margin: .6rem 0;
+      font-weight: 600
+    }
+
+    .form input[type=range] {
+      grid-column: 1/-1;
+      width: 100%;
+      accent-color: var(--a)
+    }
+
+    .tag {
+      font-weight: 800;
+      font-size: .9rem;
+      padding: .3rem .8rem;
+      background: var(--soft);
+      border-radius: 999px
+    }
+
+    @media(max-width:560px) {
+      .obra {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .lg {
+      display: inline
+    }
+
+    .cr {
+      display: none
+    }
+
+    @media(max-width:700px) {
+      .lg {
+        display: none
+      }
+
+      .cr {
+        display: inline
+      }
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 7.2vw, 5.4rem)
+    }
+
+    h1 .n1,
+    h1 .n2 {
+      display: block
+    }
+
+    h1 .mais {
+      display: inline-grid;
+      place-items: center;
+      width: .62em;
+      height: .62em;
+      margin: .18em 0;
+      border-radius: 50%;
+      background: var(--b);
+      color: #fff;
+      border: 3px solid var(--ink);
+      font-size: .7em;
+      line-height: 1;
+      transform: rotate(-8deg);
+      box-shadow: 3px 3px 0 var(--ink)
+    }
+
+    .so {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0)
+    }
+
+    h1 em.j {
+      color: var(--ink)
+    }
+
+    h1 em.j::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -.06em;
+      height: .13em;
+      width: 100%;
+      background: repeating-linear-gradient(90deg, var(--b) 0 .2em, transparent .2em .32em);
+      animation: pixel 1s steps(12) .9s both
+    }
+
+    @keyframes pixel {
+      from {
+        width: 0
+      }
+    }
+
+    .flu {
+      animation: flu 3.2s ease-in-out infinite
+    }
+
+    .f2 {
+      animation-delay: -1s
+    }
+
+    .f3 {
+      animation-delay: -2s
+    }
+
+    @keyframes flu {
+      50% {
+        transform: translateY(-9px)
+      }
+    }
+
+    .gira {
+      animation: gira 5s linear infinite
+    }
+
+    @keyframes gira {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .bol {
+      animation: bol 1.8s ease-in infinite
+    }
+
+    .b2 {
+      animation-delay: -.9s
+    }
+
+    @keyframes bol {
+      from {
+        transform: translateY(6px);
+        opacity: 1
+      }
+
+      to {
+        transform: translateY(-14px);
+        opacity: 0
+      }
+    }
+
+    .dna {
+      animation: dna 2.4s ease-in-out infinite alternate
+    }
+
+    @keyframes dna {
+      to {
+        transform: scaleX(.3)
+      }
+    }
+
+    /* ajustes v7: sem sobreposições */
+    .hero {
+      grid-template-columns: 1.05fr .95fr;
+      grid-template-areas: "topo topo" "meio fig";
+      row-gap: 1.4rem
+    }
+
+    .topo {
+      grid-area: topo;
+      min-width: 0
+    }
+
+    .meio {
+      grid-area: meio;
+      min-width: 0
+    }
+
+    .anim {
+      grid-area: fig;
+      min-width: 0
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 6.4vw, 5.2rem);
+      line-height: 1.08;
+      letter-spacing: -.02em
+    }
+
+    h1 .n1,
+    h1 .n2 {
+      display: block
+    }
+
+    h1 .n2 {
+      margin-top: .1em
+    }
+
+    h1 .mais {
+      display: inline;
+      width: auto;
+      height: auto;
+      margin: 0 .05em 0 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      transform: none;
+      font-size: 1em;
+      color: var(--b);
+      -webkit-text-stroke: .025em var(--ink);
+      paint-order: stroke fill
+    }
+
+    h1 svg {
+      bottom: -.1em
+    }
+
+    .visor {
+      overflow: hidden
+    }
+
+    @media(max-width:700px) {
+      .hero {
+        grid-template-columns: 1fr;
+        grid-template-areas: "topo" "meio" "fig"
+      }
+    }
+
+    .jogos {
+      display: grid;
+      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr))
+    }
+
+    .jg {
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 22px;
+      padding: 1.3rem;
+      display: grid;
+      gap: .4rem;
+      justify-items: start
+    }
+
+    .jg svg {
+      width: 60px;
+      height: 60px
+    }
+
+    .jg h3 {
+      font-family: var(--display);
+      font-size: 1.5rem
+    }
+
+    .destaque {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.2rem;
+      align-items: center;
+      margin-top: 1.4rem;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 26px;
+      padding: 1.4rem 1.6rem
+    }
+
+    .destaque h3 {
+      font-family: var(--display);
+      font-size: 1.6rem;
+      margin-bottom: .3rem
+    }
+
+    .destaque .ic {
+      display: flex;
+      gap: .6rem
+    }
+
+    .destaque .ic svg {
+      width: 54px;
+      height: 54px;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 5px
+    }
+
+    @media(max-width:620px) {
+      .destaque {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .ingresso {
+      display: grid;
+      grid-template-columns: 1fr 130px;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 18px;
+      position: relative;
+      box-shadow: 8px 8px 0 var(--ink);
+      transform: rotate(-1.5deg);
+      overflow: hidden
+    }
+
+    .ingresso::before,
+    .ingresso::after {
+      content: "";
+      position: absolute;
+      right: 116px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--ink);
+      z-index: 2
+    }
+
+    .ingresso::before {
+      top: -14px
+    }
+
+    .ingresso::after {
+      bottom: -14px
+    }
+
+    .il {
+      padding: 1.1rem 1.2rem;
+      display: grid;
+      gap: .3rem;
+      align-content: start
+    }
+
+    .il h3 {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      line-height: 1
+    }
+
+    .il h4 {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      line-height: 1
+    }
+
+    .il h4 span {
+      color: var(--b)
+    }
+
+    .il p {
+      font-weight: 800
+    }
+
+    .fs {
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      padding: .1rem .6rem;
+      font-size: .85rem;
+      font-weight: 700
+    }
+
+    .fs.a {
+      background: #9BE0F7
+    }
+
+    .fs.j {
+      background: var(--c)
+    }
+
+    .ir {
+      background: #9BE0F7;
+      border-left: 3px dashed var(--ink);
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: .5rem;
+      padding: .8rem
+    }
+
+    .ir em {
+      background: var(--ink);
+      color: #fff;
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: .18em;
+      padding: 0 .5rem 0 .65rem;
+      border-radius: 6px
+    }
+
+    .qr {
+      width: 78px;
+      aspect-ratio: 1;
+      background: conic-gradient(var(--ink) 25%, #fff 0 50%, var(--ink) 0 75%, #fff 0) 0 0/19.5px 19.5px;
+      border: 4px solid #fff;
+      outline: 2px solid var(--ink)
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 26px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 8px 8px 0 var(--ink)
+    }
+
+    /* teste de paletas */
+    .paletas {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 40;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: .4rem .6rem;
+      display: flex;
+      gap: .4rem;
+      align-items: center;
+      font-size: .8rem;
+      font-weight: 800
+    }
+
+    .paletas button {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+      cursor: pointer
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
+      }
+
+      h1 path {
+        stroke-dashoffset: 0
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header><b><span class="lg">Festival de Animação + Feira de Jogos</span><span class="cr">Animação + Jogos</span></b>
+    <nav><a href="votar.html">Assistir e votar</a><a href="#programacao">Programação</a><a href="#jogos">Feira de
+        Jogos</a><a href="#curtas">Animações</a><a href="#votacao">Votação</a><a href="#ingresso">Ingresso</a></nav>
+  </header>
+
+  <div class="hero">
+    <div class="topo">
+      <div class="claquete"><i></i><span>Cena 01/12 · Auditório (animações) e Foyer (jogos)</span></div>
+      <h1><span class="n1">Festival de <em>Animação<svg viewBox="0 0 400 20" preserveAspectRatio="none"
+              aria-hidden="true">
+              <path d="M5 12 C60 2 110 20 170 10 S280 2 395 11" />
+            </svg></em></span><span class="n2"><span class="mais" aria-hidden="true">+</span> <span class="so">e
+          </span>Feira de <em class="j">Jogos</em></span></h1>
+    </div>
+    <div class="meio">
+      <p class="sub">Animações no auditório e jogos no foyer: tudo criado pelos estudantes de Multimídia.</p>
+      <div class="botoes"><a class="btn p" href="#programacao">Ver programação</a><a class="btn s"
+          href="votar.html">Assistir e votar</a></div>
+    </div>
+    <figure class="anim" id="palco">
+      <div class="visor"><span class="rec">Gravando</span><svg viewBox="0 0 400 400" id="mascote" role="img"
+          aria-label="Claquete simpática que pisca, acena e bate palmas. Clique nela.">
+          <ellipse class="sombra" cx="200" cy="392" rx="95" ry="9" fill="var(--ink)" opacity=".18" />
+          <g transform="translate(62 72)">
+            <g class="flu f1">
+              <g class="gira">
+                <ellipse rx="27" ry="10" fill="none" stroke="var(--ink)" stroke-width="3.5" />
+                <ellipse rx="27" ry="10" fill="none" stroke="var(--ink)" stroke-width="3.5" transform="rotate(60)" />
+                <ellipse rx="27" ry="10" fill="none" stroke="var(--ink)" stroke-width="3.5" transform="rotate(120)" />
+              </g>
+              <circle r="6" fill="var(--b)" stroke="var(--ink)" stroke-width="3" />
+            </g>
+          </g>
+          <g transform="translate(338 86)">
+            <g class="flu f2">
+              <path d="M-8-24H8V-8L24 22Q27 30 19 30H-19Q-27 30-24 22L-8-8Z" fill="#fff" stroke="var(--ink)"
+                stroke-width="4" stroke-linejoin="round" />
+              <path d="M-17 12H17L24 22Q27 30 19 30H-19Q-27 30-24 22Z" fill="var(--b)" />
+              <circle class="bol b1" cx="-4" cy="6" r="3" fill="#fff" stroke="var(--ink)" stroke-width="1.5" />
+              <circle class="bol b2" cx="5" cy="10" r="2.5" fill="#fff" stroke="var(--ink)" stroke-width="1.5" />
+            </g>
+          </g>
+          <g transform="translate(58 196)">
+            <g class="flu f3">
+              <g class="dna">
+                <path d="M-12-34C16-22 16-12-12 0C-40 12-40 22-12 34" fill="none" stroke="var(--a)" stroke-width="5"
+                  stroke-linecap="round" />
+                <path d="M12-34C-16-22-16-12 12 0C40 12 40 22 12 34" fill="none" stroke="var(--b)" stroke-width="5"
+                  stroke-linecap="round" />
+                <path d="M-9-27H9M-12-14H12M-12 14H12M-9 27H9" stroke="var(--ink)" stroke-width="3"
+                  stroke-linecap="round" />
+              </g>
+            </g>
+          </g>
+          <g class="pula">
+            <path d="M120 360v26M280 360v26" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" />
+            <ellipse cx="112" cy="388" rx="20" ry="8" fill="var(--ink)" />
+            <ellipse cx="288" cy="388" rx="20" ry="8" fill="var(--ink)" />
+            <path d="M90 270L50 300" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" />
+            <circle cx="46" cy="304" r="11" fill="var(--card)" stroke="var(--ink)" stroke-width="5" />
+            <g class="acena">
+              <path d="M310 270L352 228" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" />
+              <circle cx="357" cy="223" r="11" fill="var(--card)" stroke="var(--ink)" stroke-width="5" />
+              <rect x="334" y="214" width="50" height="28" rx="13" fill="var(--a)" stroke="var(--ink)"
+                stroke-width="4" />
+              <path d="M348 221v14M341 228h14" stroke="#fff" stroke-width="3.5" stroke-linecap="round" />
+              <circle cx="368" cy="224" r="3.6" fill="var(--c)" />
+              <circle cx="376" cy="232" r="3.6" fill="var(--b)" />
+            </g>
+            <rect x="90" y="150" width="220" height="210" rx="18" fill="var(--card)" stroke="var(--ink)"
+              stroke-width="5" />
+            <rect x="90" y="150" width="220" height="36" fill="var(--ink)" />
+            <g fill="var(--b)">
+              <polygon points="106,150 132,150 116,186 90,186" />
+              <polygon points="158,150 184,150 168,186 142,186" />
+              <polygon points="210,150 236,150 220,186 194,186" />
+              <polygon points="262,150 288,150 272,186 246,186" />
+            </g>
+            <text x="200" y="222" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800"
+              font-size="24" fill="var(--ink)">01/12</text>
+            <g stroke="var(--ink)" stroke-width="5">
+              <circle cx="155" cy="266" r="27" fill="#fff" />
+              <circle cx="245" cy="266" r="27" fill="#fff" />
+            </g>
+            <g class="olhos">
+              <circle class="pupila" cx="155" cy="266" r="12" fill="var(--ink)" />
+              <circle class="pupila" cx="245" cy="266" r="12" fill="var(--ink)" />
+            </g>
+            <circle cx="116" cy="306" r="13" fill="var(--b)" opacity=".75" />
+            <circle cx="284" cy="306" r="13" fill="var(--b)" opacity=".75" />
+            <path class="boca" d="M172 308Q200 334 228 308" fill="none" stroke="var(--ink)" stroke-width="6"
+              stroke-linecap="round" />
+            <g class="bate">
+              <rect x="90" y="110" width="220" height="40" rx="8" fill="var(--ink)" />
+              <g fill="var(--c)">
+                <polygon points="108,110 134,110 118,150 92,150" />
+                <polygon points="160,110 186,110 170,150 144,150" />
+                <polygon points="212,110 238,110 222,150 196,150" />
+                <polygon points="264,110 290,110 274,150 248,150" />
+              </g>
+            </g>
+          </g>
+        </svg></div>
+      <figcaption><span>Clique na claquete</span><span>Take 1 · Fase 1</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="dados">
+    <div class="dado"><small>Quando</small><b>1º de dezembro</b></div>
+    <div class="dado"><small>Onde</small><b>Auditório e Foyer</b></div>
+    <div class="dado"><small>Entrada</small><b>Com ingresso</b></div>
+  </div>
+
+  <section id="entrar">
+    <div class="in">
+      <div class="cta">
+        <div>
+          <h2>Já tem seu ingresso?</h2>
+          <p class="lead" style="margin-bottom:0">Entre com o código para assistir às animações aqui mesmo e votar.</p>
+        </div><a class="btn p" href="votar.html">Assistir e votar</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="in">
+      <h2>Três jeitos de contar uma história</h2>
+      <p class="lead">O auditório vira sala de cinema e o foyer vira feira de jogos.</p>
+      <div class="tres">
+        <article>
+          <h3>Animações</h3>
+          <p>Curtas feitos pelas turmas de Multimídia ao longo do ano, exibidos no auditório.</p>
+        </article>
+        <article>
+          <h3>Feira de Jogos</h3>
+          <p>Jogos  digitais para testar no foyer, incluindo o protótipo criado pela MULTI4 para
+            Ciências da Natureza.</p>
+        </article>
+        <article>
+          <h3>Premiação</h3>
+          <p>Às 12h, a revelação das animações escolhidas por três júris.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="jogos">
+    <div class="in">
+      <h2>Feira de Jogos</h2>
+      <p class="lead">No foyer, é só chegar e jogar. São jogos digitais criados pelos estudantes de
+        Multimídia nas aulas de FTP.</p>
+      <div class="destaque">
+        <div class="ic"><svg viewBox="0 0 64 64" aria-hidden="true">
+            <g fill="none" stroke="#151B3B" stroke-width="3.5" transform="translate(32 32)">
+              <ellipse rx="25" ry="10" />
+              <ellipse rx="25" ry="10" transform="rotate(60)" />
+              <ellipse rx="25" ry="10" transform="rotate(120)" />
+            </g>
+            <circle cx="32" cy="32" r="6" fill="#FF6B4A" stroke="#151B3B" stroke-width="3" />
+          </svg><svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M26 8H38V24L52 50Q55 58 47 58H17Q9 58 12 50L26 24Z" fill="#fff" stroke="#151B3B" stroke-width="4"
+              stroke-linejoin="round" />
+            <path d="M19 42H45L52 50Q55 58 47 58H17Q9 58 12 50Z" fill="#FF6B4A" />
+            <circle cx="29" cy="48" r="3" fill="#fff" />
+            <circle cx="38" cy="51" r="2.5" fill="#fff" />
+          </svg><svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M22 6C46 18 46 26 22 32C-2 38 -2 46 22 58" fill="none" stroke="#3345E0" stroke-width="5"
+              stroke-linecap="round" />
+            <path d="M42 6C18 18 18 26 42 32C66 38 66 46 42 58" fill="none" stroke="#FF6B4A" stroke-width="5"
+              stroke-linecap="round" />
+            <path d="M26 14H38M24 22H40M24 42H40M26 50H38" stroke="#151B3B" stroke-width="3" stroke-linecap="round" />
+          </svg></div>
+        <div>
+          <h3>Jogo de Ciências da Natureza</h3>
+          <p>A MULTI4 trabalhou como um estúdio de games: as professoras de CNT foram as clientes, e os estudantes
+            cuidaram da gestão e do desenvolvimento. O protótipo está na feira para você testar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="programacao" style="background:var(--soft)">
+    <div class="in">
+      <h2>Programação de 01/12</h2>
+      <p class="lead">Cada turma passa pelos dois espaços, em horários diferentes. Intervalo das 10h às 10h15 e
+        premiação das animações às 12h.</p>
+      <div class="linha">
+        <div class="regua">
+          <div class="cabeca"></div>
+        </div>
+        <div class="sessoes" id="prog"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="curtas">
+    <div class="in">
+      <h2>Animações em cartaz</h2>
+      <p class="lead">Os títulos e as equipes entram aqui. Para assistir, use o código do seu ingresso.</p>
+      <div class="grade" id="grade"></div>
+    </div>
+  </section>
+
+  <section id="votacao" style="background:var(--soft)">
+    <div class="in">
+      <div class="duo">
+        <div>
+          <h2>Quem escolhe as melhores animações</h2>
+          <p class="lead">Três júris, duas modalidades (Individual/Dupla e Grupo). Os vencedores só são revelados na
+            premiação, às 12h.</p>
+        </div>
+        <div>
+          <div class="juri">
+            <h3>Gosto Popular</h3>
+            <p>Todo mundo vota com o código do ingresso, um voto em cada modalidade.</p>
+          </div>
+          <div class="juri">
+            <h3>Júri Técnico</h3>
+            <p>Estudantes de Multimídia e Computação Gráfica avaliam antes do festival, de 23 a 27/11, em 6 critérios de
+              0 a 10.</p>
+          </div>
+          <div class="juri">
+            <h3>Júri Profissional</h3>
+            <p>Comissão convidada assiste às obras e escolhe as 3 melhores de cada modalidade, nos mesmos critérios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ingresso">
+    <div class="in">
+      <div class="duo">
+        <div>
+          <h2>Seu ingresso é a chave</h2>
+          <p class="lead">Impresso com seu nome, sua turma e um código. Vale para entrar na sessão e para votar.</p>
+        </div>
+        <div class="ingresso" aria-label="Exemplo de ingresso">
+          <div class="il"><small>01/12 · Auditório e Foyer</small>
+            <h3>Festival de Animação</h3>
+            <h4><span>+</span> Feira de Jogos</h4>
+            <p>Convidado · Aluno</p>
+            <div class="fs a">8h20 · Auditório · Animações</div>
+            <div class="fs j">10h20 · Foyer · Jogos</div>
+          </div>
+          <div class="ir">
+            <div class="qr"></div><em>K7M2Q</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><b>Festival de Animação + Feira de Jogos</b>
+    <p>1º de dezembro de 2026 · Senac Aclimação</p>
+    <p style="opacity:.75;margin-top:.3rem">Animações no Auditório · Jogos no Foyer</p>
+  </footer>
+
+  <div class="paletas" role="group" aria-label="Testar paletas">Paleta
+    <button data-t="tinta" style="background:#3345E0" aria-label="Tinta"></button>
+    <button data-t="floresta" style="background:#0F7B6C" aria-label="Floresta"></button>
+    <button data-t="ameixa" style="background:#7B3FE4" aria-label="Ameixa"></button>
+    <button data-t="cinema" style="background:#8E1B34" aria-label="Cinema"></button>
+  </div>
+
+  <script>
+    const SESSOES = [
+      {q: "8h20 às 10h", aud: ["ADM4", "MULTI5", "INFO12"], foy: ["MULTI4", "ADM5", "ADM6"]},
+      {q: "10h20 às 11h55", aud: ["MULTI4", "ADM5", "ADM6"], foy: ["ADM4", "MULTI5", "INFO12"]}];
+    const CURTAS = Array.from({length: 6}, () => ({t: "Título do curta", e: "Equipe a definir"}));
+    const V = ['--b', '--a', '--c'];
+    document.getElementById('prog').innerHTML = SESSOES.map(s => `<div class="clipe"><h3>${s.q}</h3><p><strong>Auditório · Animações</strong></p><div class="turmas">${s.aud.map(t => `<b>${t}</b>`).join('')}</div><p><strong>Foyer · Feira de Jogos</strong></p><div class="turmas">${s.foy.map(t => `<b>${t}</b>`).join('')}</div></div>`).join('');
+    document.getElementById('grade').innerHTML = CURTAS.map((c, k) => `<div class="curta"><div class="capa" style="background:var(${V[k % 3]})"></div><p>${c.t}<small>${c.e}</small></p></div>`).join('');
+    document.querySelectorAll('.paletas button').forEach(b => b.onclick = () => document.documentElement.dataset.tema = b.dataset.t);
+
+    const visor = document.querySelector('.visor'), pup = [...document.querySelectorAll('.pupila')];
+    document.addEventListener('pointermove', e => {
+      const r = document.getElementById('mascote').getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * .65), d = Math.hypot(dx, dy) || 1, k = Math.min(10, d / 40);
+      pup.forEach(p => p.style.transform = `translate(${dx / d * k}px,${dy / d * k}px)`)
+    });
+    visor.addEventListener('click', e => {
+      visor.classList.remove('clap'); void visor.offsetWidth; visor.classList.add('clap');
+      const r = visor.getBoundingClientRect(), cols = ['--a', '--b', '--c'];
+      for (let i = 0; i < 16; i++) {
+        const c = document.createElement('i'); c.className = 'confete';
+        c.style.cssText = `left:${e.clientX - r.left}px;top:${e.clientY - r.top}px;background:var(${cols[i % 3]});border-radius:${i % 2 ? '50%' : '3px'}`;
+        visor.appendChild(c); const a = Math.random() * 6.28, d = 60 + Math.random() * 90;
+        c.animate([{transform: 'translate(0,0) rotate(0)', opacity: 1}, {transform: `translate(${Math.cos(a) * d}px,${Math.sin(a) * d + 40}px) rotate(${Math.random() * 540}deg)`, opacity: 0}], {duration: 900, easing: 'cubic-bezier(.2,.8,.4,1)'}).onfinish = () => c.remove();
+      }
+    });
+
+    /* QR antigo (?c=) segue para a página de votação */
+    const qc = new URLSearchParams(location.search).get('c'); if (qc) location.replace('votar.html?c=' + encodeURIComponent(qc));
+  </script>
+</body>
+
+</html>
